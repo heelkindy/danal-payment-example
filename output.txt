@@ -1,0 +1,68 @@
+🚀 ~ requestAuth ~ headers: {
+  'Content-Type': 'application/json; charset=utf-8',
+  'X-Auth-Token': 'm4xv9jm9UpxgTmFZuuSSYhEdqsl5F/IfZxcI+WW6Ux8='
+}
+
+🚀 ~ requestAuth ~ body: {
+  cp_id: 'A010082119',
+  country: 'KR',
+  pg_code: 'cybersource',
+  paymethod: 'creditcard',
+  item_name: 'Test Product',
+  currency: 'KRW',
+  amount: 100,
+  order_id: 'O123',
+  user_id: 'testuser',
+  user_email: 'testuser@test.com',
+  return_url: 'https://boa-fleet-mistakenly.ngrok-free.app/payment/return',
+  notify_url: 'https://boa-fleet-mistakenly.ngrok-free.app/payment/notify'
+}
+
+🚀 ~ requestAuth ~ response.data: {
+  returncode: '00000',
+  returnmsg: 'API processing success',
+  tid: '2509191341116100185',
+  start_url: 'https://api-pay.danalpay.com:10444/web/v1/payment/ui/202509191341112515256G',
+  bill_flow_type: '2step'
+}
+
+🚀 ~ req.body: {
+  tid: '2509191341116100185',
+  return_token: 'AEJ9rFZqJzoamSR5SYnhWwnAlWvmHDOecqK/GW4AbQU=',
+  bill_flow_type: '2step'
+}
+
+🚀 ~ confirmPayment ~ headers: {
+  'Content-Type': 'application/json; charset=utf-8',
+  'X-Auth-Token': 'AEJ9rFZqJzoamSR5SYnhWwnAlWvmHDOecqK/GW4AbQU='
+}
+
+🚀 ~ confirmPayment ~ body: {
+  cp_id: 'A010082119',
+  tid: '2509191341116100185',
+  return_token: 'AEJ9rFZqJzoamSR5SYnhWwnAlWvmHDOecqK/GW4AbQU='
+}
+
+🚀 ~ billResult ~ response.data: {
+  returncode: '00000',
+  returnmsg: 'API processing success',
+  tid: '2509191341116100185',
+  order_id: 'O123',
+  amount: 100,
+  currency: 'KRW',
+  item_name: 'Test Product',
+  paymethod: 'creditcard',
+  bypass_value: null
+}
+
+🚀 ~ result: {
+  returncode: '00000',
+  returnmsg: 'API processing success',
+  tid: '2509191341116100185',
+  order_id: 'O123',
+  amount: 100,
+  currency: 'KRW',
+  item_name: 'Test Product',
+  paymethod: 'creditcard',
+  bypass_value: null
+}
