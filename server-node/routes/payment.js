@@ -50,4 +50,15 @@ router.post("/notify", async (req, res) => {
     }
 });
 
+// Cancel API
+router.post("/cancel", async (req, res) => {
+    try {
+        const { tid, amount, currency, cancelType } = req.body;
+        const result = await cancelPayment(tid, amount, currency, cancelType);
+        res.json(result);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
 module.exports = router;

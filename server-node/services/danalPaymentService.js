@@ -73,7 +73,7 @@ async function confirmPayment(tid, returnToken) {
 
     const response = await axios.post(uri, body, { headers });
 
-    console.log("🚀 ~ billResult ~ response.data:", response.data);
+    console.log("🚀 ~ confirmPayment ~ response.data:", response.data);
 
     return response.data;
 }
@@ -105,4 +105,26 @@ async function billResult(tid, returnToken) {
     return response.data;
 }
 
-module.exports = { requestAuth, confirmPayment, billResult };
+async function cancelPayment(tid, amount, currency = "KRW", cancelType = "C") {
+    const uri = `${config.baseUrl}/api/v2/${pgCode}/${paymentMethod}/cancel`; // đổi pg_code/paymethod theo giao dịch gốc
+    const data = `${config.cpId}${tid}`;
+    const token = generateAuthToken(data, config.secretKey);
+
+    const headers = {
+        "Content-Type": "application/json; charset=utf-8",
+        "X-Auth-Token": token,
+    };
+
+    const body = {
+        cp_id: config.cpId,
+        tid,
+        cancel_type: cancelType, // "C" = full, "P" = partial
+        currency,
+        amount,
+    };
+
+    const response = await axios.post(uri, body, { headers, httpsAgent });
+    return response.data;
+}
+
+module.exports = { requestAuth, confirmPayment, billResult, cancelPayment };
