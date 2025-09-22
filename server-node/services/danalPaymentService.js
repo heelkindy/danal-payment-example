@@ -4,18 +4,14 @@ const config = require("../config/config");
 const https = require("https");
 
 const pgCode = "cybersource";
-const paymentMethod = "creditcard";
+const payMethod = "creditcard";
 // const country = "VN";
 // const currency = "VND";
 const country = "KR";
 const currency = "KRW";
 
-const httpsAgent = new https.Agent({
-    rejectUnauthorized: false, // ❗ cho phép SSL self-signed (chỉ dùng khi STG test)
-});
-
 async function requestAuth(orderId, itemName, amount) {
-    const uri = `${config.baseUrl}/api/v1/${pgCode}/${paymentMethod}/auth`; // ví dụ eximbay all
+    const uri = `${config.baseUrl}/api/v1/${pgCode}/${payMethod}/auth`; // ví dụ eximbay all
     const data = `${config.cpId}${amount}${orderId}`;
     const token = generateAuthToken(data, config.secretKey);
 
@@ -30,7 +26,7 @@ async function requestAuth(orderId, itemName, amount) {
         cp_id: config.cpId,
         country: country,
         pg_code: pgCode,
-        paymethod: paymentMethod,
+        paymethod: payMethod,
         item_name: itemName,
         currency: currency,
         amount: amount,
@@ -43,7 +39,7 @@ async function requestAuth(orderId, itemName, amount) {
 
     console.log("🚀 ~ requestAuth ~ body:", body);
 
-    const response = await axios.post(uri, body, { headers, httpsAgent });
+    const response = await axios.post(uri, body, { headers });
 
     console.log("🚀 ~ requestAuth ~ response.data:", response.data);
 
@@ -78,6 +74,48 @@ async function confirmPayment(tid, returnToken) {
     return response.data;
 }
 
+async function bill(tid, returnToken) {
+    const uri = `${config.baseUrl}/api/v1/${pgCode}/${payMethod}/bill`; // change pg_code/paymethod according to the original transaction
+    const data = `${config.cpId}${tid}`;
+    const token = generateAuthToken(data, config.secretKey);
+
+    const headers = {
+        "Content-Type": "application/json; charset=utf-8",
+        "X-Auth-Token": token,
+    };
+
+    console.log("🚀 ~ bill ~ headers:", headers);
+
+    const body = {
+        cp_id: config.cpId,
+        tid,
+        return_token: returnToken,
+    };
+
+    console.log("🚀 ~ bill ~ body:", body);
+
+    const response = await axios.post(uri, body, { headers });
+
+    //{
+    //   returncode: '00000',
+    //   returnmsg: 'API processing success',
+    //   tid: '2509221159006748185',
+    //   order_id: '201199',
+    //   currency: 'KRW',
+    //   amount: 120,
+    //   pg_code: '',
+    //   paymethod: 'creditcard',
+    //   user_paymethod: '',
+    //   user_paymethod_detail: '',
+    //   billkey: '',
+    //   transtime: '',
+    // }
+
+    console.log("🚀 ~ bill ~ response.data:", response.data);
+
+    return response.data;
+}
+
 async function billResult(tid, returnToken) {
     const uri = `${config.baseUrl}/api/v1/payment/bill-result`;
     const data = `${config.cpId}${tid}`;
@@ -100,13 +138,52 @@ async function billResult(tid, returnToken) {
 
     const response = await axios.post(uri, body, { headers });
 
+    //{
+    //   returncode: '00000',
+    //   returnmsg: 'API processing success',
+    //   tid: '2509221159006748185',
+    //   order_id: '201199',
+    //   currency: 'KRW',
+    //   amount: 120,
+    //   pg_code: '',
+    //   paymethod: 'creditcard',
+    //   user_paymethod: '',
+    //   user_paymethod_detail: '',
+    //   billkey: '',
+    //   transtime: '',
+    // }
+
     console.log("🚀 ~ billResult ~ response.data:", response.data);
 
     return response.data;
 }
 
+async function inquiryPayment(tid) {
+    const uri = `${config.baseUrl}/api/v1/payment/inquiry`;
+    const data = `${config.cpId}${tid}`;
+    const token = generateAuthToken(data, config.secretKey);
+
+    const headers = {
+        "Content-Type": "application/json; charset=utf-8",
+        "X-Auth-Token": token,
+    };
+
+    const body = {
+        cp_id: config.cpId,
+        tid,
+    };
+
+    console.log("🚀 ~ inquiryPayment ~ body:", body);
+
+    const response = await axios.post(uri, body, { headers });
+
+    console.log("🚀 ~ inquiryPayment ~ response.data:", response.data);
+
+    return response.data;
+}
+
 async function cancelPayment(tid, amount, currency = "KRW", cancelType = "C") {
-    const uri = `${config.baseUrl}/api/v2/${pgCode}/${paymentMethod}/cancel`; // đổi pg_code/paymethod theo giao dịch gốc
+    const uri = `${config.baseUrl}/api/v2/${pgCode}/${payMethod}/cancel`; // đổi pg_code/paymethod theo giao dịch gốc
     const data = `${config.cpId}${tid}`;
     const token = generateAuthToken(data, config.secretKey);
 
@@ -123,8 +200,8 @@ async function cancelPayment(tid, amount, currency = "KRW", cancelType = "C") {
         amount,
     };
 
-    const response = await axios.post(uri, body, { headers, httpsAgent });
+    const response = await axios.post(uri, body, { headers });
     return response.data;
 }
 
-module.exports = { requestAuth, confirmPayment, billResult, cancelPayment };
+module.exports = { requestAuth, confirmPayment, bill, billResult, cancelPayment, inquiryPayment };
