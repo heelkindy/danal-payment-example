@@ -7,7 +7,7 @@ router.post("/auth", async (req, res) => {
     try {
         const { orderId, itemName, amount } = req.body;
         const result = await requestAuth(orderId, itemName, amount);
-        res.json(result); // chứa start_url để redirect user
+        res.json(result); // Chứa start_url để redirect user
     } catch (err) {
         res.status(500).json({ error: err.message });
     }

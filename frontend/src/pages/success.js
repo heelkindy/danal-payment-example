@@ -65,7 +65,7 @@ export default function Success() {
                 {/* Action Button */}
                 <button
                     onClick={handleBackToHome}
-                    className='w-full bg-green-600 text-white py-3 px-6 rounded-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 font-medium'
+                    className='cursor-pointer w-full bg-green-600 text-white py-3 px-6 rounded-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 font-medium'
                 >
                     Quay lại trang chủ
                 </button>

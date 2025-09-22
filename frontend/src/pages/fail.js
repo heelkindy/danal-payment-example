@@ -80,14 +80,14 @@ export default function Fail() {
                 <div className='space-y-3'>
                     <button
                         onClick={handleRetryPayment}
-                        className='w-full bg-red-600 text-white py-3 px-6 rounded-lg hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 font-medium'
+                        className='w-full cursor-pointer bg-red-600 text-white py-3 px-6 rounded-lg hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 font-medium'
                     >
                         Thử lại thanh toán
                     </button>
 
                     <button
                         onClick={handleBackToHome}
-                        className='w-full bg-gray-600 text-white py-3 px-6 rounded-lg hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500 font-medium'
+                        className='w-full cursor-pointer bg-gray-600 text-white py-3 px-6 rounded-lg hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500 font-medium'
                     >
                         Quay lại trang chủ
                     </button>

@@ -1,10 +1,12 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/router";
 import axios from "axios";
 const { paymentUrl } = require("../config/config");
 
 export default function Home() {
+    const router = useRouter();
     const [loading, setLoading] = useState(false);
     const [formData, setFormData] = useState({
         itemName: "Test Product",
@@ -40,6 +42,10 @@ export default function Home() {
         } finally {
             setLoading(false);
         }
+    };
+
+    const navigateToCancel = () => {
+        router.push("/cancel");
     };
 
     return (
@@ -91,14 +97,24 @@ export default function Home() {
                             />
                         </div>
 
-                        <button
-                            type='button'
-                            onClick={startPayment}
-                            disabled={loading || !formData.itemName || !formData.amount}
-                            className='w-full py-3 px-4 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-400 disabled:cursor-not-allowed font-medium'
-                        >
-                            {loading ? "Đang xử lý..." : "Thanh toán ngay"}
-                        </button>
+                        <div className='space-y-3'>
+                            <button
+                                type='button'
+                                onClick={startPayment}
+                                disabled={loading || !formData.itemName || !formData.amount}
+                                className='w-full py-3 px-4 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-400 disabled:cursor-not-allowed font-medium'
+                            >
+                                {loading ? "Đang xử lý..." : "Thanh toán ngay"}
+                            </button>
+
+                            <button
+                                type='button'
+                                onClick={navigateToCancel}
+                                className='w-full py-3 px-4 bg-gray-600 text-white rounded-md hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500 font-medium'
+                            >
+                                Hủy giao dịch
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -114,9 +114,17 @@ export default function Cancel() {
                             type='button'
                             onClick={handleCancelPayment}
                             disabled={loading || !formData.tid || !formData.amount}
-                            className='w-full py-3 px-4 bg-red-600 text-white rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 disabled:bg-gray-400 disabled:cursor-not-allowed font-medium'
+                            className='w-full py-3 cursor-pointer px-4 bg-red-600 text-white rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 disabled:bg-gray-400 disabled:cursor-not-allowed font-medium'
                         >
                             {loading ? "Đang xử lý..." : "Hủy giao dịch"}
+                        </button>
+
+                        {/* Action Button */}
+                        <button
+                            onClick={handleBackToHome}
+                            className='w-full cursor-pointer bg-gray-600 text-white py-3 px-6 rounded-lg hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500 font-medium'
+                        >
+                            Quay lại trang chủ
                         </button>
                     </div>
                 </div>
@@ -160,14 +168,6 @@ export default function Cancel() {
                         </div>
                     </div>
                 )}
-
-                {/* Action Button */}
-                <button
-                    onClick={handleBackToHome}
-                    className='w-full bg-gray-600 text-white py-3 px-6 rounded-lg hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500 font-medium'
-                >
-                    Quay lại trang chủ
-                </button>
             </div>
         </div>
     );
