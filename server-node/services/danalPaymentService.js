@@ -1,12 +1,9 @@
 const axios = require("axios");
 const { generateAuthToken } = require("../utils/hmacUtil");
 const config = require("../config/config");
-const https = require("https");
 
 const pgCode = "cybersource";
 const payMethod = "creditcard";
-// const country = "VN";
-// const currency = "VND";
 const country = "KR";
 const currency = "KRW";
 
